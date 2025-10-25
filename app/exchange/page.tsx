@@ -203,6 +203,7 @@ export default function ExchangePage() {
         setShowCreateAd(false)
         setCreateAdForm({
           cryptocurrency: 'USDC',
+          chain: 'polygon-amoy',
           price: '',
           totalAmount: ''
         })
