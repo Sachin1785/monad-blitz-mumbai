@@ -1,15 +1,26 @@
 # CryptoBazaar - Secure P2P Crypto Trading Platform
 
-CryptoBazaar is a peer-to-peer cryptocurrency trading platform built with Next.js, focusing on USDT trading with UPI/GPay integration. The platform includes Razorpay payment integration and Clerk authentication for secure transactions.
+
+CryptoBazaar is a peer-to-peer cryptocurrency trading platform built with Next.js, supporting multiple blockchains (Polygon Amoy and Monad Testnet) for seamless USDC, USDT, and MON trading. The platform includes Razorpay payment integration and Clerk authentication for secure transactions.
 
 ## Features
 
 - 🔒 **Escrow Protection** - Every trade secured by automated escrow system
+- 🌉 **Multi-Chain Support** - Trade on both Polygon Amoy and Monad Testnet
 - ⚡ **Instant Settlements** - Complete trades in minutes with UPI/GPay
 - 👥 **Verified Users** - Comprehensive KYC verification process
 - 📈 **Best Rates** - Competitive exchange rates with real-time market data
 - 🌐 **24/7 Trading** - Round-the-clock availability with customer support
 - 💳 **Multiple Payment Options** - UPI, GPay, PhonePe support
+## Multi-Chain Support
+
+CryptoBazaar supports trading on multiple blockchains:
+
+- **Polygon Amoy Testnet**: Trade USDC and USDT with fast, low-cost transactions.
+- **Monad Testnet**: Trade MON tokens natively on Monad's EVM-compatible testnet.
+
+When creating a listing, users can select which chain to use for their trade. The escrow system is deployed on both networks, ensuring secure and flexible trading across chains.
+
 
 ## Tech Stack
 
