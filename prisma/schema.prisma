@@ -1,0 +1,73 @@
+// Prisma schema for user onboarding with SQLite
+// Save this as schema.prisma in the /prisma directory
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                Int      @id @default(autoincrement())
+  clerkId           String   @unique
+  email             String   @unique
+  firstName         String
+  lastName          String
+  phone             String
+  addressLine1      String
+  addressLine2      String?
+  city              String
+  state             String
+  zipCode           String
+  dateOfBirth       DateTime
+  gender            String?
+  bankName          String
+  accountNumber     String
+  ifsc              String
+  walletAddress     String?  @unique // MetaMask wallet address (optional for migration)
+  termsAccepted     Boolean  @default(false)
+  privacyAccepted   Boolean  @default(false)
+  marketingAccepted Boolean  @default(false)
+  onboardingComplete Boolean @default(false)
+  razorpay          Razorpay?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Razorpay {
+  id            Int      @id @default(autoincrement())
+  contactId     String
+  fundAccountId String
+  userId        Int      @unique // Foreign key to User, must be unique for 1-1 relation
+  user          User     @relation(fields: [userId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model P2POrder {
+  id                String   @id @default(cuid())
+  userId            String   // References User.clerkId
+  type              String   // "BUY" or "SELL"
+  cryptocurrency    String   // "USDT", "USDC", or "MON"
+  fiatCurrency      String   @default("INR")
+  price             Decimal  @db.Decimal(10, 2) // Price per crypto unit in fiat
+  totalAmount       Decimal  @db.Decimal(15, 2) // Total crypto amount available
+  minLimit          Decimal  @db.Decimal(10, 2) // Minimum order limit in fiat
+  maxLimit          Decimal  @db.Decimal(15, 2) // Maximum order limit in fiat
+  availableAmount   Decimal  @db.Decimal(15, 2) // Remaining available amount
+  paymentMethods    String[] // Array of payment methods: ["UPI", "IMPS", "BANK_TRANSFER"]
+  timeLimit         Int      // Time limit in minutes
+  status            String   @default("ACTIVE") // "ACTIVE", "PAUSED", "COMPLETED", "CANCELLED"
+  completionRate    Decimal  @db.Decimal(5, 2) @default(0.00) // User's completion rate
+  totalOrders       Int      @default(0) // Total completed orders by user
+  verified          Boolean  @default(false) // User verification status
+  rating            Decimal  @db.Decimal(3, 2) @default(0.00) // User rating
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([cryptocurrency, type, status])
+  @@index([price])
+}
